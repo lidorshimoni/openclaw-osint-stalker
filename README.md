@@ -25,11 +25,15 @@ This plugin is designed to work **out of the box**. It strictly prioritizes tool
 *(Optional Advanced Tools like Mosint, WhatBreach, and h8mail are supported if you choose to configure your own API keys, but are safely skipped otherwise).*
 
 ## 📦 Installation
-1. Clone this repository into your OpenClaw skills directory:
-   ```bash
-   cd ~/.openclaw/workspace/skills/
-   git clone https://github.com/lidorshimoni/openclaw-osint-stalker osint-stalker
-   ```
+
+To install this skill locally into your OpenClaw workspace:
+
+```bash
+cd ~/.openclaw/workspace/skills/
+git clone https://github.com/lidorshimoni/openclaw-osint-stalker.git osint-stalker
+```
+
+*Note: You can also find and publish OpenClaw plugins on the official community marketplace at [ClawHub.ai](https://clawhub.ai).*
 
 ## 🎮 Usage
 Trigger the skill with an optional mode parameter:
@@ -44,7 +48,7 @@ The subagent yields a Markdown file (`reports/osint_<target>.md`) detailing:
 - Digital Footprint (Accounts & Code)
 - Media, Academic & Web Mentions
 - Breach & Paste Exposure
-- Coverage Gaps & Recommended API Keys (Clearly highlighting what you missed by not configuring keys)
+- Coverage Gaps & Recommended API Keys
 - Next Possible Leads
 
 ## 🛡️ Ethics & Constraints
