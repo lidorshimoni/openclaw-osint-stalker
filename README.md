@@ -1,5 +1,9 @@
 # OpenClaw OSINT Stalker Plugin 🕵️‍♂️
 
+<p align="center">
+  <img src="logo.jpg" alt="Osint-Stalker Logo" width="200" />
+</p>
+
 An automated reconnaissance and Open-Source Intelligence (OSINT) skill for the OpenClaw agent ecosystem. The **Osint-Stalker** subagent takes a single lead (username, email, or phone number) and orchestrates a minimal-overlap stack of FOSS OSINT tools to build a comprehensive dossier.
 
 ## 🌟 Zero-Config Philosophy
