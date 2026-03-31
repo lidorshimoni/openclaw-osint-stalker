@@ -1,20 +1,24 @@
 # OpenClaw OSINT Stalker Plugin 🕵️‍♂️
 
-An automated reconnaissance and Open-Source Intelligence (OSINT) skill for the OpenClaw agent ecosystem. The **Osint-Stalker** subagent takes a single lead (username, email, or phone number) and orchestrates a minimal-overlap stack of FOSS OSINT tools to build a comprehensive dossier without requiring the user to manage individual terminals.
+An automated reconnaissance and Open-Source Intelligence (OSINT) skill for the OpenClaw agent ecosystem. The **Osint-Stalker** subagent takes a single lead (username, email, or phone number) and orchestrates a minimal-overlap stack of FOSS OSINT tools to build a comprehensive dossier.
+
+## 🌟 Zero-Config Philosophy
+This plugin is designed to work **out of the box**. It strictly prioritizes tools and methods that require **no API keys, no registration, and no complex setup**. Advanced tools that require paid or registered API keys (like deep breach databases) are relegated to an optional tier.
 
 ## 🚀 Features
-- **Quick vs Deep Scans:** Break down the time complexity of the scan by choosing between a rapid identity resolution sweep or a comprehensive recursive dossier.
-- **Academic, Media, & Developer Footprints:** Deep scans pull in Google Scholar publications, news mentions, and Git commit history leaks.
-- **Deep Breaches & Pastes:** Integrated with `Mosint`, `WhatBreach`, and `h8mail` to find pastebin dumps and breach datasets.
-- **Isolated Execution:** Runs complex OSINT tools via Docker and Python virtual environments.
-- **Graceful API Degradation:** Designed to operate seamlessly without API keys.
+- **Quick vs Deep Scans:** Break down the time complexity. `quick` runs rapid identity sweeps, while `deep` runs recursive profiling and targeted dorking.
+- **Keyless Execution:** Relies on Sherlock, Maigret, Holehe, PhoneInfoga, and intelligent Web Search Dorking to bypass API paywalls.
+- **Automated Dorking:** For academic publications, news mentions, and pastebin leaks, the subagent uses its native web search capabilities to execute advanced Dorks without requiring finicky scraper setups.
+- **Isolated Execution:** Runs complex OSINT tools via Docker and Python virtual environments to keep your host machine clean.
 
-## 🛠️ Tool Stack
-- **Username:** [Maigret](https://github.com/soxoj/maigret) (Recursive Deep) or [Sherlock](https://github.com/sherlock-project/sherlock) (Quick)
-- **Email/Breaches/Pastes:** [Mosint](https://github.com/alpkeskin/mosint), [Holehe](https://github.com/megadose/holehe), [WhatBreach](https://github.com/Ekultek/WhatBreach), [h8mail](https://github.com/khast3x/h8mail)
-- **Code/Dev:** [Gitrecon](https://github.com/GONZOsint/gitrecon) (GitHub/GitLab commit emails)
-- **Academic/Media:** [Senginta](https://github.com/senginta) & OSRFramework (Google Scholar, News)
-- **Phone:** [PhoneInfoga](https://github.com/sundowndev/phoneinfoga)
+## 🛠️ The Out-of-the-Box Tool Stack
+- **Username:** [Maigret](https://github.com/soxoj/maigret) (Deep) or [Sherlock](https://github.com/sherlock-project/sherlock) (Quick) — *Zero keys required.*
+- **Email:** [Holehe](https://github.com/megadose/holehe) (Account Mapping) — *Zero keys required.*
+- **Code/Dev:** [Gitrecon](https://github.com/GONZOsint/gitrecon) — *Zero keys required (public endpoints).*
+- **Phone:** [PhoneInfoga](https://github.com/sundowndev/phoneinfoga) — *Zero keys required for basic scans.*
+- **Pastes & Publications:** Executed natively via OpenClaw Web Search Dorking (e.g., `site:pastebin.com`).
+
+*(Optional Advanced Tools like Mosint, WhatBreach, and h8mail are supported if you choose to configure your own API keys, but are safely skipped otherwise).*
 
 ## 📦 Installation
 1. Clone this repository into your OpenClaw skills directory:
@@ -36,7 +40,7 @@ The subagent yields a Markdown file (`reports/osint_<target>.md`) detailing:
 - Digital Footprint (Accounts & Code)
 - Media, Academic & Web Mentions
 - Breach & Paste Exposure
-- Coverage Gaps & Recommended API Keys
+- Coverage Gaps & Recommended API Keys (Clearly highlighting what you missed by not configuring keys)
 - Next Possible Leads
 
 ## 🛡️ Ethics & Constraints
