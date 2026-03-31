@@ -1,55 +1,40 @@
-# OpenClaw OSINT Stalker Plugin 🕵️‍♂️
-
 <p align="center">
   <img src="logo.jpg" alt="Osint-Stalker Logo" width="200" />
 </p>
 
-An automated reconnaissance and Open-Source Intelligence (OSINT) skill for the OpenClaw agent ecosystem. The **Osint-Stalker** subagent takes a single lead (username, email, or phone number) and orchestrates a minimal-overlap stack of FOSS OSINT tools to build a comprehensive dossier.
+# OpenClaw OSINT Skills (Two-Tier Architecture)
 
-## 🌟 Zero-Config Philosophy
-This plugin is designed to work **out of the box**. It strictly prioritizes tools and methods that require **no API keys, no registration, and no complex setup**. Advanced tools that require paid or registered API keys (like deep breach databases) are relegated to an optional tier.
+A decoupled, scalable OSINT framework for OpenClaw using dual subagent architectures to separate massive data scraping from intelligent synthesis.
 
-## 🚀 Features
-- **Quick vs Deep Scans:** Break down the time complexity. `quick` runs rapid identity sweeps, while `deep` runs recursive profiling and targeted dorking.
-- **Keyless Execution:** Relies on Sherlock, Maigret, Holehe, PhoneInfoga, and intelligent Web Search Dorking to bypass API paywalls.
-- **Automated Dorking:** For academic publications, news mentions, and pastebin leaks, the subagent uses its native web search capabilities to execute advanced Dorks without requiring finicky scraper setups.
-- **Isolated Execution:** Runs complex OSINT tools via Docker and Python virtual environments to keep your host machine clean.
+## Architecture
 
-## 🛠️ The Out-of-the-Box Tool Stack
-- **Username:** [Maigret](https://github.com/soxoj/maigret) (Deep) or [Sherlock](https://github.com/sherlock-project/sherlock) (Quick) — *Zero keys required.*
-- **Email:** [Holehe](https://github.com/megadose/holehe) (Account Mapping) — *Zero keys required.*
-- **Code/Dev:** [Gitrecon](https://github.com/GONZOsint/gitrecon) — *Zero keys required (public endpoints).*
-- **Phone:** [PhoneInfoga](https://github.com/sundowndev/phoneinfoga) — *Zero keys required for basic scans.*
-- **Pastes & Publications:** Executed natively via OpenClaw Web Search Dorking (e.g., `site:pastebin.com`).
+This project has been split into two distinct AgentSkills to maximize efficiency and reasoning capability:
 
-*(Optional Advanced Tools like Mosint, WhatBreach, and h8mail are supported if you choose to configure your own API keys, but are safely skipped otherwise).*
+### 1. `osint-harvest` (The Scraping Loop)
+- **Model:** Slim, fast models (`google/gemini-3-flash-preview`).
+- **Function:** Enumerates targets using tools like `maigret`, then aggressively uses `web_fetch` to scrape the raw contents of profiles, bios, and posts. It scans the raw markdown for new identifiers (emails, links) and pivots iteratively (depth=2).
+- **Output:** A massive raw Data Lake stored at `reports/<target>_raw_data.md`.
+- **Trigger:** `/osint-harvest <target>`
 
-## 📦 Installation
+### 2. `osint-ask` (The Research Engine)
+- **Model:** High-reasoning models (`google/gemini-3.1-pro-preview`).
+- **Function:** Orchestrates the intelligence cycle. When asked a specific question, it ingests the scraped Data Lake and synthesizes a precise, cited intelligence brief. If the Data Lake doesn't exist, it automatically spawns the `osint-harvest` skill first.
+- **Trigger:** `/osint-ask <target> <question>`
 
-To install this skill locally into your OpenClaw workspace:
+## Installation
+
+To test locally in OpenClaw, link both skills:
 
 ```bash
-cd ~/.openclaw/workspace/skills/
-git clone https://github.com/lidorshimoni/openclaw-osint-stalker.git osint-stalker
+openclaw skills install path/to/osint-stalker-repo/osint-harvest
+openclaw skills install path/to/osint-stalker-repo/osint-ask
 ```
 
-*Note: You can also find and publish OpenClaw plugins on the official community marketplace at [ClawHub.ai](https://clawhub.ai).*
+## Example Workflow
 
-## 🎮 Usage
-Trigger the skill with an optional mode parameter:
-```
-/osint quick <target>
-/osint deep <target>
-```
-
-## 📝 Reporting
-The subagent yields a Markdown file (`reports/osint_<target>.md`) detailing:
-- Executive Summary & Risk Assessment
-- Digital Footprint (Accounts & Code)
-- Media, Academic & Web Mentions
-- Breach & Paste Exposure
-- Coverage Gaps & Recommended API Keys
-- Next Possible Leads
-
-## 🛡️ Ethics & Constraints
-This plugin relies strictly on public APIs, scraped footprints, and OSINT frameworks. It performs passive reconnaissance only. Do not use for unauthorized access or doxxing.
+1. **User:** "What is the last known location of lidorshimoni?"
+2. **Orchestrator (`osint-ask`):** Checks if `reports/lidorshimoni_raw_data.md` exists. It doesn't.
+3. **Orchestrator:** Spawns `osint-harvest` subagent (Gemini Flash).
+4. **Harvester (`osint-harvest`):** Enumerates accounts, scrapes GitHub bios, LinkedIn posts, and personal websites. Dumps raw markdown into the Data Lake.
+5. **Orchestrator:** Re-awakens, ingests the massive markdown file, and synthesizes the answer.
+6. **Orchestrator:** Replies to the user: "Based on a scraped GitHub bio (`github.com/lidorshimoni`) and a Hackaday project post (`hackaday.io/...`), the last known location is Kiryat Gat, Israel."
