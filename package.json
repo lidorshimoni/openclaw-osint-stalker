@@ -5,6 +5,16 @@
   "description": "OSINT agent plugin package for OpenClaw.",
   "type": "module",
   "main": "index.js",
+  "openclaw": {
+    "extensions": ["./index.js"],
+    "compat": {
+      "pluginApi": ">=2026.3.24-beta.2"
+    },
+    "build": {
+      "openclawVersion": "2026.3.24-beta.2",
+      "pluginSdkVersion": "2026.3.24-beta.2"
+    }
+  },
   "keywords": ["openclaw", "plugin", "osint"],
   "license": "MIT"
 }
