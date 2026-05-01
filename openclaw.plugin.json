@@ -1,0 +1,12 @@
+{
+  "id": "osint-agent",
+  "name": "OSINT Agent",
+  "description": "OSINT plugin package for OpenClaw.",
+  "version": "0.1.0",
+  "main": "index.js",
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {}
+  }
+}
