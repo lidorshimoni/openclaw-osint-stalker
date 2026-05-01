@@ -1,0 +1,10 @@
+{
+  "name": "osint-agent",
+  "version": "0.1.0",
+  "private": true,
+  "description": "OSINT agent plugin package for OpenClaw.",
+  "type": "module",
+  "main": "index.js",
+  "keywords": ["openclaw", "plugin", "osint"],
+  "license": "MIT"
+}
